@@ -1,20 +1,22 @@
 <template>
   <div
-    class="p-4 relative hw-note-card border-2 border-solid border-blue-light bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
+    class="p-4 relative hw-note-card border-2 border-solid border-cornflower-blue-300 bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
     ref="boardCard"
     @mouseover="displayXMark(true)"
     @mouseleave="displayXMark(false)"
+    @open="$emit('open')"
   >
-    <div v-show="true" class="absolute top-0 right-0">
-      <button
-        class="rounded p-2 rounded-full bg-white text-red drop-shadow-2xl hover:bg-red-lightest"
-      >
-        <font-awesome-icon icon="fa-solid fa-xmark" />
+    <div v-show="isVisibleDeleteBtn" class="absolute top-4 right-6">
+      <button @click="$emit('delete-row')">
+        <font-awesome-icon
+          icon="fa-solid fa-xmark"
+          class="rounded-full transition ease-in-out delay-75 hover:text-red-500"
+        />
       </button>
     </div>
     <div class="text">
       <p class="text-blue-dark">
-        {{ cutText(text) }}
+        {{ cutText(note.text) }}
       </p>
     </div>
   </div>
@@ -25,9 +27,9 @@ import { ref } from 'vue';
 export default {
   name: 'NoteCard',
   props: {
-    text: {
-      type: String,
-      default: '',
+    note: {
+      type: Object,
+      default: null,
     },
   },
   setup() {

@@ -12,7 +12,9 @@
             class="m-4"
             v-for="rows in dataRows"
             :key="rows.id"
-            v-model:text="rows.doc.text"
+            v-model:note="rows.doc"
+            @delete-row="$emit('delete-row', rows.doc)"
+            @open="$emit('open', rows.doc)"
           />
         </template>
 
