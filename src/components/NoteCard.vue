@@ -1,7 +1,6 @@
 <template>
   <div
     class="p-4 relative hw-note-card border-2 border-solid border-cornflower-blue-300 bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
-    ref="boardCard"
     @mouseover="displayXMark(true)"
     @mouseleave="displayXMark(false)"
     @open="$emit('open')"
