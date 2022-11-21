@@ -18,7 +18,7 @@
           />
         </template>
 
-        <AddNewNote class="m-4" />
+        <AddNewNote class="m-4" @create="$emit('create')" />
       </div>
     </div>
   </div>

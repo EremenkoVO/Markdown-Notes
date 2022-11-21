@@ -7,7 +7,14 @@
 html,
 body,
 #app {
+  height: 100%;
   background-color: #fff;
+}
+
+#app {
+  background-image: url(./../background.svg);
+  background-repeat: no-repeat;
+  background-position: 95% 95%;
 }
 
 input:focus {
@@ -32,10 +39,8 @@ input:focus {
 }
 
 .hw-note-card {
-  min-height: 200px;
-  min-width: 200px;
-  max-height: 400px;
-  max-width: 400px;
+  height: 200px;
+  width: 200px;
   border-radius: 26px;
   transition: 0.5s;
 }
@@ -45,4 +50,36 @@ input:focus {
   display: flex;
   align-items: center;
   align-content: center;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  width: 50%;
+  min-width: 300px;
+  max-height: 1300px;
+  padding: 16px;
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 1rem;
+}
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  margin: 8px 8px 0 0;
+  cursor: pointer;
+}
+.modal-close::hover {
+  color: gray;
 }

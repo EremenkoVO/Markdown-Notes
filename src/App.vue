@@ -14,12 +14,32 @@
   </div>
 
   <div>
-    <ListView v-model:data="dataDB" @delete-row="deleteRow" @open="open" />
+    <ListView
+      v-model:data="dataDB"
+      @delete-row="deleteRow"
+      @open="open"
+      @create="create"
+    />
   </div>
+
+  <VueFinalModal
+    v-model="isVisibleModal"
+    classes="modal-container"
+    content-class="modal-content"
+  >
+    <CardEditor
+      v-model:note="noteEdit"
+      :mode="mode"
+      @save="save"
+      @edit="edit"
+    />
+  </VueFinalModal>
 </template>
 
 <script>
 import { computed, onMounted, ref } from 'vue';
+import { VueFinalModal } from 'vue-final-modal';
+import CardEditor from './components/CardEditor.vue';
 import ListView from './components/ListView.vue';
 import db from './db.js';
 
@@ -27,9 +47,14 @@ export default {
   name: 'App',
   components: {
     ListView,
+    VueFinalModal,
+    CardEditor,
   },
   setup() {
     let dataDB = ref({});
+    let isVisibleModal = ref(false);
+    let mode = ref('view');
+    let noteEdit = ref({});
 
     const getAllNotes = async () => {
       dataDB.value = await db.getAllNotes();
@@ -40,13 +65,51 @@ export default {
     });
 
     const deleteRow = async (note) => {
-      console.log('delete');
       db.deleteNote(note);
       getAllNotes();
     };
 
-    const open = async () => {
-      console.log('open');
+    const open = (note) => {
+      noteEdit.value = note;
+      isVisibleModal.value = true;
+      mode.value = 'view';
+    };
+
+    const edit = (note) => {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      noteEdit.value = note;
+      isVisibleModal.value = true;
+      mode.value = 'edit';
+    };
+
+    const create = () => {
+      isVisibleModal.value = true;
+      noteEdit.value = { text: '' };
+      mode.value = 'edit';
+    };
+
+    const addNote = async (note) => {
+      await db.addNotes(note.text);
+      await getAllNotes();
+    };
+
+    const updateNote = async (note) => {
+      await db.editNote(note);
+      await getAllNotes();
+    };
+
+    const save = (note) => {
+      if (!note?.id) {
+        addNote(note);
+      } else {
+        updateNote(note);
+      }
+      isVisibleModal.value = false;
+    };
+
+    const isEdit = () => {
+      return mode.value !== 'edit';
     };
 
     onMounted(() => {
@@ -55,10 +118,17 @@ export default {
 
     return {
       dataDB,
+      mode,
+      noteEdit,
+      isVisibleModal,
+      isEdit,
       lengthData,
       getAllNotes,
       deleteRow,
       open,
+      edit,
+      create,
+      save,
     };
   },
 };
