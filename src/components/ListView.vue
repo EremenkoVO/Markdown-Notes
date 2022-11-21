@@ -7,7 +7,15 @@
     </div>
     <div name="ViewNotes" class="flex flex-wrap justify-start">
       <div class="flex flex-wrap overflow select-none" style="margin-top: 80px">
-        <NoteCard class="m-4" v-for="i in 1" :key="i" />
+        <template v-if="isData">
+          <NoteCard
+            class="m-4"
+            v-for="rows in dataRows"
+            :key="rows.id"
+            v-model:text="rows.doc.text"
+          />
+        </template>
+
         <AddNewNote class="m-4" />
       </div>
     </div>
@@ -15,6 +23,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import AddNewNote from './AddNewNote.vue';
 import NoteCard from './NoteCard.vue';
 
@@ -25,15 +34,24 @@ export default {
     NoteCard,
   },
   props: {
-    ListNotes: {
-      type: Array,
-      default: () => [],
+    data: {
+      type: Object,
+      default: null,
     },
   },
-  computed: {
-    isListNotes() {
-      return this.ListNotes.length > 0;
-    },
+  setup(props) {
+    const isData = computed(() => {
+      return props.data !== null;
+    });
+
+    const dataRows = computed(() => {
+      return props.data?.rows;
+    });
+
+    return {
+      isData,
+      dataRows,
+    };
   },
 };
 </script>

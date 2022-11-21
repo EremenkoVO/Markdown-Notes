@@ -2,7 +2,7 @@
   <div
     class="p-4 hw-note-card border-2 border-solid border-blue-light bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
   >
-    <p>
+    <p class="text-blue-dark">
       {{ cutText(text) }}
     </p>
   </div>
@@ -13,9 +13,7 @@ export default {
   props: {
     text: {
       type: String,
-      default: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos qui,
-      eveniet amet saepe odio dolores, sed facilis hic eius vero omnis suscipit
-      nemo cumque aperiam laudantium corrupti? Commodi, exercitationem eius.`,
+      default: '',
     },
   },
   setup() {
