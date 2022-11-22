@@ -15,7 +15,13 @@
     </div>
     <div class="text">
       <p class="text-blue-dark">
-        <Markdown :source="note.text" breaks html linkify />
+        <Markdown
+          @click="$emit('open')"
+          :source="note.text"
+          breaks
+          html
+          linkify
+        />
       </p>
     </div>
   </div>
