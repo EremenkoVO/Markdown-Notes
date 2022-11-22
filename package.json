@@ -12,11 +12,11 @@
     "electron:build": "vue-cli-service electron:build",
     "electron:win": "electron-builder --windows",
     "electron:linux": "electron-builder --linux",
-    "electron:serve": "electron-builder electron:serve",
+    "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },
-  "main": "src/background.js",
+  "main": "background.js",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
