@@ -14,5 +14,5 @@
 
 ```
 yarn install
-yarn yarn electron:build
+yarn electron:build
 ```
