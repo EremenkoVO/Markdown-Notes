@@ -1,12 +1,17 @@
 {
-  "name": "vue-desktop",
+  "name": "markdown-notes",
   "version": "0.1.0",
   "private": true,
+  "description": "simple app for markdown notes",
+  "author": "EremenkoVO",
+  "email": "eremenko.v.o@yandex.ru",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
+    "electron:win": "vue-cli-service electron:build --win",
+    "electron:linux": "vue-cli-service electron:build --linux",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
