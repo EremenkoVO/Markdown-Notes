@@ -1,24 +1,14 @@
-# vue-desktop
+# markdown-notes
 
-## Project setup
+<img src="./preview.png">
+
+### Просто приложение для введения заметок в формате markdown
+
+Приложение находится в статусе `beta`
+
+# Сборка
+
 ```
 yarn install
+yarn electron:win или yarn electron:linux
 ```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
