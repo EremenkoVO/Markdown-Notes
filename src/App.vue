@@ -23,6 +23,7 @@
   </div>
 
   <VueFinalModal
+    v-if="isVisibleModal"
     v-model="isVisibleModal"
     classes="modal-container"
     content-class="modal-content"
@@ -76,8 +77,6 @@ export default {
     };
 
     const edit = (note) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
       noteEdit.value = note;
       isVisibleModal.value = true;
       mode.value = 'edit';

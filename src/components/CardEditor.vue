@@ -4,11 +4,13 @@
       <textarea
         class="w-full outline-none p-2 border-2 rounded-md border-cornflower-blue-300 focus:border-cornflower-blue-500"
         rows="10"
-        v-model="editNote"
+        v-model="editNote.text"
       ></textarea>
     </div>
     <div v-else-if="isView">
-      <Markdown :source="note.text" />
+      <div class="markdown-body mb-4">
+        <Markdown :source="note.text" breaks html linkify />
+      </div>
     </div>
     <menu>
       <button
@@ -45,12 +47,9 @@ export default {
       default: 'view',
     },
   },
-  mounted() {
-    this.editNote = this.note.text;
-  },
   data() {
     return {
-      editNote: '',
+      editNote: {},
     };
   },
   computed: {
@@ -62,12 +61,17 @@ export default {
       return this.mode == 'view';
     },
   },
+  deactivated() {
+    console.log('шоырвопло');
+    this.editNote.text = '';
+  },
   methods: {
     save(note) {
-      this.$emit('save', { id: note.id, text: this.editNote });
-      this.editNote = '';
+      this.$emit('save', { id: note.id, text: this.editNote.text });
+      this.editNote.text = '';
     },
     edit(note) {
+      this.editNote.text = note.text;
       this.$emit('edit', note);
     },
   },
