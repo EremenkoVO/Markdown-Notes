@@ -5,6 +5,7 @@ module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
+        asar: true,
         appId: 'com.electron.markdown-notes',
         win: {
           icon: 'public/icons/favicon.ico',
