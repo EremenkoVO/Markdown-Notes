@@ -66,7 +66,8 @@ const store = createStore({
       commit('setStateAllNotes', notes);
     },
 
-    async updateNote(payload) {
+    // eslint-disable-next-line no-unused-vars
+    async updateNote({ commit }, payload) {
       await db.editNote(payload);
     },
 
