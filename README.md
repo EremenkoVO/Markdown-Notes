@@ -14,5 +14,5 @@
 
 ```
 yarn install
-yarn electron:win или yarn electron:linux
+yarn yarn electron:build
 ```
