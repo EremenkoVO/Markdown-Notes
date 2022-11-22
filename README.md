@@ -4,6 +4,8 @@
   <strong>Приложение для введения заметок в формате markdown</strong>
 </div>
 
+[![Build/release](https://github.com/EremenkoVO/Markdown-Notes/actions/workflows/main.yml/badge.svg)](https://github.com/EremenkoVO/Markdown-Notes/actions/workflows/main.yml)
+
 <img src="./preview.png">
 
 Приложение находится в статусе `beta`
