@@ -5,6 +5,12 @@ module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       builderOptions: {
+        files: [
+          "build//*",
+          'dist/**/*',
+          'package.json',
+          "node_modules//*",
+        ],
         asar: true,
         appId: 'com.electron.markdown-notes',
         win: {
