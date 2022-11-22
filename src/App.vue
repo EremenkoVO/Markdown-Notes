@@ -14,51 +14,64 @@
   </div>
 
   <div>
-    <ListView v-model:data="dataDB" @delete-row="deleteRow" @open="open" />
+    <ListView v-model:data="allNotes" @open="open" @close="close" />
   </div>
+
+  <VueFinalModal
+    v-model="visible"
+    classes="modal-container"
+    content-class="modal-content"
+    @click-outside="close"
+  >
+    <CardEditor @close="close" />
+  </VueFinalModal>
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
+import { VueFinalModal } from 'vue-final-modal';
+import { useStore } from 'vuex';
+import CardEditor from './components/CardEditor.vue';
 import ListView from './components/ListView.vue';
-import db from './db.js';
 
 export default {
   name: 'App',
   components: {
     ListView,
+    VueFinalModal,
+    CardEditor,
   },
   setup() {
-    let dataDB = ref({});
+    const store = useStore();
+    let visible = ref(false);
 
-    const getAllNotes = async () => {
-      dataDB.value = await db.getAllNotes();
-    };
+    store.dispatch('getAllNotes');
+
+    const mode = computed(() => {
+      return store.getters.getMode;
+    });
 
     const lengthData = computed(() => {
-      return dataDB.value?.rows?.length;
+      return store.getters.getLengthNotes;
     });
 
-    const deleteRow = async (note) => {
-      console.log('delete');
-      db.deleteNote(note);
-      getAllNotes();
+    const open = () => {
+      visible.value = true;
     };
 
-    const open = async () => {
-      console.log('open');
+    const close = () => {
+      visible.value = false;
+      store.dispatch('setMode', '');
+      store.dispatch('setNote', { id: '', text: '' });
     };
-
-    onMounted(() => {
-      getAllNotes();
-    });
 
     return {
-      dataDB,
+      visible,
+      mode,
       lengthData,
-      getAllNotes,
-      deleteRow,
+      closed,
       open,
+      close,
     };
   },
 };

@@ -21,7 +21,10 @@
     "core-js": "^3.8.3",
     "pouchdb-browser": "^7.3.1",
     "uuid": "^9.0.0",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-final-modal": "3",
+    "vue3-markdown-it": "^1.0.10",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

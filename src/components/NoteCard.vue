@@ -1,12 +1,12 @@
 <template>
   <div
-    class="p-4 relative hw-note-card border-2 border-solid border-cornflower-blue-300 bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
+    class="p-4 relative hw-note-card overflow-hidden border-2 border-solid border-cornflower-blue-300 bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
     @mouseover="displayXMark(true)"
     @mouseleave="displayXMark(false)"
-    @open="$emit('open')"
+    @click.self="$emit('open')"
   >
     <div v-show="isVisibleDeleteBtn" class="absolute top-4 right-6">
-      <button @click="$emit('delete-row')">
+      <button @click="onDelete">
         <font-awesome-icon
           icon="fa-solid fa-xmark"
           class="rounded-full transition ease-in-out delay-75 hover:text-red-500"
@@ -15,43 +15,43 @@
     </div>
     <div class="text">
       <p class="text-blue-dark">
-        {{ cutText(note.text) }}
+        <Markdown :source="note.text" breaks html linkify />
       </p>
     </div>
   </div>
 </template>
 <script>
+import store from '@/store';
 import { ref } from 'vue';
+import Markdown from 'vue3-markdown-it';
 
 export default {
   name: 'NoteCard',
+  components: {
+    Markdown,
+  },
   props: {
     note: {
       type: Object,
-      default: null,
+      default: () => ({ text: '' }),
     },
   },
-  setup() {
+  setup(props) {
     let isVisibleDeleteBtn = ref(false);
-    /**
-     * Укорачивание текста
-     * @param {string} text
-     */
-    const cutText = (text) => {
-      if (text.length > 167) {
-        return text.slice(0, 164).concat('...');
-      }
-      return text;
-    };
 
     const displayXMark = (flag) => {
       isVisibleDeleteBtn.value = flag;
     };
 
+    const onDelete = () => {
+      store.dispatch('deleteNote', props.note);
+      store.dispatch('getAllNotes');
+    };
+
     return {
       isVisibleDeleteBtn,
-      cutText,
       displayXMark,
+      onDelete,
     };
   },
 };
