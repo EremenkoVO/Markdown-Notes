@@ -12,7 +12,7 @@ module.exports = defineConfig({
         linux: {
           icon: 'public/icons',
           executableName: 'markdown-notes',
-          target: ['AppImage'],
+          target: ['deb'],
         },
       },
     },
