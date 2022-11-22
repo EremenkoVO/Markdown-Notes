@@ -9,16 +9,15 @@
       <div class="flex flex-wrap overflow select-none" style="margin-top: 80px">
         <template v-if="isData">
           <NoteCard
-            class="m-4"
-            v-for="rows in dataRows"
+            v-for="rows in data.rows"
             :key="rows.id"
+            class="m-4"
             v-model:note="rows.doc"
-            @delete-row="$emit('delete-row', rows.doc)"
-            @open="$emit('open', rows.doc)"
+            @open="openNote(rows.doc), $emit('open')"
           />
         </template>
 
-        <AddNewNote class="m-4" @create="$emit('create')" />
+        <AddNewNote class="m-4" @open="$emit('open')" />
       </div>
     </div>
   </div>
@@ -26,6 +25,7 @@
 
 <script>
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 import AddNewNote from './AddNewNote.vue';
 import NoteCard from './NoteCard.vue';
 
@@ -35,24 +35,26 @@ export default {
     AddNewNote,
     NoteCard,
   },
-  props: {
-    data: {
-      type: Object,
-      default: null,
-    },
-  },
-  setup(props) {
+  setup() {
+    const store = useStore();
+
     const isData = computed(() => {
-      return props.data !== null;
+      return store.getters.getLengthNotes > 0;
     });
 
-    const dataRows = computed(() => {
-      return props.data?.rows;
+    const data = computed(() => {
+      return store.getters.getAllNotes;
     });
+
+    const openNote = (note) => {
+      store.dispatch('setMode', 'view');
+      store.dispatch('setNote', note);
+    };
 
     return {
       isData,
-      dataRows,
+      data,
+      openNote,
     };
   },
 };

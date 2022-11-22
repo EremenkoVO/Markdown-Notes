@@ -2,30 +2,46 @@ import { createStore } from 'vuex';
 import db from './db';
 
 const store = createStore({
-  state: {
-    mode: '',
+  state() {
+    return {
+      visible: false,
 
-    note: {
-      id: '',
-      text: '',
-    },
+      mode: '',
 
-    allNote: [],
+      note: {
+        id: '',
+        text: '',
+      },
+
+      allNotes: [],
+    };
   },
-  actions: {
-    setStateMode({ state }, payload) {
+  mutations: {
+    setStateMode(state, payload) {
       state.mode = payload;
     },
 
-    setStateNote({ state }, payload) {
+    setStateNote(state, payload) {
       state.note = payload;
     },
 
-    setStateAllNotes({ state }, payload) {
-      state.allNote = payload;
+    setStateAllNotes(state, payload) {
+      state.allNotes = payload;
+    },
+
+    setStateVisible(state, payload) {
+      state.visible = payload;
     },
   },
-  mutations: {
+  actions: {
+    setMode({ commit }, payload) {
+      commit('setStateMode', payload);
+    },
+
+    setVisible({ commit }, payload) {
+      commit('setStateVisible', payload);
+    },
+
     setNote({ commit }, payload) {
       commit('setStateNote', payload);
     },
@@ -40,29 +56,49 @@ const store = createStore({
       commit('setStateNote', payload?.note);
     },
 
-    async getAllRecords({ commit }) {
-      let notes = await db.getAllNotes();
-      commit('setStateAllNotes', notes);
-    },
-
     openNote({ commit }, payload) {
       commit('setStateMode', 'view');
       commit('setStateNote', payload.note);
     },
 
-    updateNote({ commit }, payload) {},
+    async getAllNotes({ commit }) {
+      let notes = await db.getAllNotes();
+      commit('setStateAllNotes', notes);
+    },
+
+    async updateNote(payload) {
+      await db.editNote(payload);
+    },
+
+    // eslint-disable-next-line no-unused-vars
+    async addNote({ commit }, payload) {
+      await db.addNotes(payload);
+    },
+
+    // eslint-disable-next-line no-unused-vars
+    async deleteNote({ commit }, payload) {
+      await db.deleteNote(payload);
+    },
   },
   getters: {
     getMode(state) {
-      state.mode;
+      return state.mode;
+    },
+
+    getVisible(state) {
+      return state.visible;
     },
 
     getNode(state) {
-      state.node;
+      return state.node;
     },
 
     getAllNotes(state) {
-      state.allNote;
+      return state.allNotes;
+    },
+
+    getLengthNotes(state) {
+      return state.allNotes?.rows?.length || 0;
     },
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div
     class="p-4 hw-new-card border-2 border-dashed border-cornflower-blue-300 bg-cornflower-blue-50 hover:bg-cornflower-blue-50a cursor-pointer transition ease-in-out delay-150 duration-300"
-    @click="$emit('create')"
+    @click="createNote(), $emit('open')"
   >
     <div>
       <font-awesome-icon
@@ -13,17 +13,19 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
 export default {
   name: 'AddNewNote',
-  data() {
-    return {};
-  },
-  methods: {
-    /**
-     * Событие открытие редактора создания новой заметки
-     * @returns {void}
-     */
-    clickToCreate() {},
+  setup() {
+    const store = useStore();
+
+    const createNote = () => {
+      store.dispatch('setMode', 'edit');
+    };
+
+    return {
+      createNote,
+    };
   },
 };
 </script>

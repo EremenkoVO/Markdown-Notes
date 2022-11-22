@@ -14,35 +14,25 @@
   </div>
 
   <div>
-    <ListView
-      v-model:data="dataDB"
-      @delete-row="deleteRow"
-      @open="open"
-      @create="create"
-    />
+    <ListView v-model:data="allNotes" @open="open" @close="close" />
   </div>
 
   <VueFinalModal
-    v-if="isVisibleModal"
-    v-model="isVisibleModal"
+    v-model="visible"
     classes="modal-container"
     content-class="modal-content"
+    @click-outside="close"
   >
-    <CardEditor
-      v-model:note="noteEdit"
-      :mode="mode"
-      @save="save"
-      @edit="edit"
-    />
+    <CardEditor @close="close" />
   </VueFinalModal>
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { VueFinalModal } from 'vue-final-modal';
+import { useStore } from 'vuex';
 import CardEditor from './components/CardEditor.vue';
 import ListView from './components/ListView.vue';
-import db from './db.js';
 
 export default {
   name: 'App',
@@ -52,82 +42,36 @@ export default {
     CardEditor,
   },
   setup() {
-    let dataDB = ref({});
-    let isVisibleModal = ref(false);
-    let mode = ref('view');
-    let noteEdit = ref({});
+    const store = useStore();
+    let visible = ref(false);
 
-    const getAllNotes = async () => {
-      dataDB.value = await db.getAllNotes();
-    };
+    store.dispatch('getAllNotes');
+
+    const mode = computed(() => {
+      return store.getters.getMode;
+    });
 
     const lengthData = computed(() => {
-      return dataDB.value?.rows?.length;
+      return store.getters.getLengthNotes;
     });
 
-    const deleteRow = async (note) => {
-      db.deleteNote(note);
-      getAllNotes();
+    const open = () => {
+      visible.value = true;
     };
 
-    const open = (note) => {
-      noteEdit.value = note;
-      isVisibleModal.value = true;
-      mode.value = 'view';
+    const close = () => {
+      visible.value = false;
+      store.dispatch('setMode', '');
+      store.dispatch('setNote', { id: '', text: '' });
     };
-
-    const edit = (note) => {
-      noteEdit.value = note;
-      isVisibleModal.value = true;
-      mode.value = 'edit';
-    };
-
-    const create = () => {
-      isVisibleModal.value = true;
-      noteEdit.value = { text: '' };
-      mode.value = 'edit';
-    };
-
-    const addNote = async (note) => {
-      await db.addNotes(note.text);
-      await getAllNotes();
-    };
-
-    const updateNote = async (note) => {
-      await db.editNote(note);
-      await getAllNotes();
-    };
-
-    const save = (note) => {
-      if (!note?.id) {
-        addNote(note);
-      } else {
-        updateNote(note);
-      }
-      isVisibleModal.value = false;
-    };
-
-    const isEdit = () => {
-      return mode.value !== 'edit';
-    };
-
-    onMounted(() => {
-      getAllNotes();
-    });
 
     return {
-      dataDB,
+      visible,
       mode,
-      noteEdit,
-      isVisibleModal,
-      isEdit,
       lengthData,
-      getAllNotes,
-      deleteRow,
+      closed,
       open,
-      edit,
-      create,
-      save,
+      close,
     };
   },
 };
