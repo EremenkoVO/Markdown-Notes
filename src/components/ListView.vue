@@ -7,17 +7,16 @@
     </div>
     <div name="ViewNotes" class="flex flex-wrap justify-start">
       <div class="flex flex-wrap overflow select-none" style="margin-top: 80px">
+        <AddNewNote class="m-4" @open="$emit('open')" />
         <template v-if="isData">
           <NoteCard
-            v-for="rows in data.rows"
-            :key="rows.id"
+            v-for="row in data"
+            :key="row.id"
             class="m-4"
-            v-model:note="rows.doc"
-            @open="openNote(rows.doc), $emit('open')"
+            v-model:note="row.doc"
+            @open="openNote(row.doc), $emit('open')"
           />
         </template>
-
-        <AddNewNote class="m-4" @open="$emit('open')" />
       </div>
     </div>
   </div>
@@ -35,15 +34,17 @@ export default {
     AddNewNote,
     NoteCard,
   },
+  props: {
+    data: {
+      type: Array,
+      default: () => [],
+    },
+  },
   setup() {
     const store = useStore();
 
     const isData = computed(() => {
       return store.getters.getLengthNotes > 0;
-    });
-
-    const data = computed(() => {
-      return store.getters.getAllNotes;
     });
 
     const openNote = (note) => {
@@ -53,7 +54,6 @@ export default {
 
     return {
       isData,
-      data,
       openNote,
     };
   },
