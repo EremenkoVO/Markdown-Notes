@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 16
           
+      - name: Install Dependencies
+        run: npm install
+          
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v1
         # Only install Snapcraft on Ubuntu
@@ -30,4 +33,4 @@ jobs:
           snapcraft_token: ${{ secrets.snapcraft_token }}
 
       - name: Build/release Electron app
-        run: yarn electron:build
+        run: npm run electron:build
