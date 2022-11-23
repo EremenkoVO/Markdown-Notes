@@ -8,13 +8,15 @@ html,
 body,
 #app {
   height: 100%;
-  background-color: #fff;
 }
 
-#app {
-  background-image: url(./background.png);
-  background-repeat: no-repeat;
-  background-position: 95% 95%;
+div,
+input {
+  font-family: 'Montserrat', sans-serif;
+}
+
+div {
+  @apply text-cornflower-blue-900;
 }
 
 input:focus {

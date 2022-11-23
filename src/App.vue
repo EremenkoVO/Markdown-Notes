@@ -9,7 +9,7 @@
         icon="fa-solid fa-magnifying-glass"
         class="ml-2 mr-2 text-cornflower-blue-300"
       />
-      <input type="search" class="text-cornflower-blue-800" />
+      <input type="search" class="text-cornflower-blue-800" v-model="search" />
     </div>
   </div>
 
@@ -44,6 +44,7 @@ export default {
   setup() {
     const store = useStore();
     let visible = ref(false);
+    let search = ref('');
 
     store.dispatch('getAllNotes');
 
@@ -52,12 +53,24 @@ export default {
     });
 
     const lengthData = computed(() => {
-      return store.getters.getLengthNotes;
+      return allNotes.value.length;
     });
 
     const open = () => {
       visible.value = true;
     };
+
+    const allNotes = computed(() => {
+      if (search.value === '') {
+        return store.getters.getAllNotes.rows;
+      } else {
+        return store.getters.getAllNotes.rows.filter((element) => {
+          if (element?.doc.text.indexOf(search.value) === 0) {
+            return element;
+          }
+        });
+      }
+    });
 
     const close = () => {
       visible.value = false;
@@ -66,7 +79,9 @@ export default {
     };
 
     return {
+      search,
       visible,
+      allNotes,
       mode,
       lengthData,
       closed,
