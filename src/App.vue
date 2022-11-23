@@ -65,7 +65,7 @@ export default {
         return store.getters.getAllNotes.rows;
       } else {
         return store.getters.getAllNotes.rows.filter((element) => {
-          if (element?.doc.text.indexOf(search.value) === 0) {
+          if (element?.doc.text.indexOf(search.value) >= 0) {
             return element;
           }
         });
