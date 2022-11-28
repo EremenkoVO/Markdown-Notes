@@ -104,3 +104,35 @@ input:focus {
   background-color: rgba(255, 255, 255, 1);
   overflow: auto;
 }
+
+.tabs-component-tabs {
+  border: 0;
+  align-items: stretch;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: -3px;
+}
+
+.tabs-component-tab:not(:last-child) {
+  border-bottom: none;
+}
+
+.tabs-component-tab-a {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  padding: 0.4em 1em;
+  border-radius: 0.375rem 0.375rem 0 0;
+  text-decoration: none;
+}
+
+.is-active {
+  @apply bg-cornflower-blue-400 text-white;
+}
+
+.tabs-component-tab {
+  background-color: #ddd;
+  border-radius: 0.375rem 0.375rem 0 0;
+  margin-right: 0.5em;
+  transition: transform 0.3s ease;
+}

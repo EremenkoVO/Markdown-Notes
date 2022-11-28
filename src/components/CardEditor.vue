@@ -1,11 +1,28 @@
 <template>
   <div>
     <div v-if="isEdit">
-      <textarea
-        class="w-full outline-none p-2 border-2 rounded-md border-cornflower-blue-300 focus:border-cornflower-blue-500"
-        rows="10"
-        v-model="note.text"
-      ></textarea>
+      <tabs>
+        <tab name="Редактор">
+          <textarea
+            class="w-full outline-none p-2 border-2 rounded-md border-cornflower-blue-300 focus:border-cornflower-blue-500"
+            rows="10"
+            v-model="note.text"
+          ></textarea>
+          <div class="space-x-5 mb-4 ml-2 hidden">
+            <button>
+              <strong>B</strong>
+            </button>
+            <button>
+              <em>I</em>
+            </button>
+          </div>
+        </tab>
+        <tab name="Предпросмотр">
+          <div class="markdown-body mb-4">
+            <Markdown :source="note.text" breaks html linkify />
+          </div>
+        </tab>
+      </tabs>
     </div>
     <div v-else-if="isView">
       <div class="markdown-body mb-4">
@@ -34,12 +51,15 @@
 <script>
 import { computed } from 'vue';
 import Markdown from 'vue3-markdown-it';
+import { Tab, Tabs } from 'vue3-tabs-component';
 import { useStore } from 'vuex';
 
 export default {
   name: 'CardEditor',
   components: {
     Markdown,
+    Tabs,
+    Tab,
   },
   setup() {
     const store = useStore();

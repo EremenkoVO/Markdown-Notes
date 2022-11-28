@@ -9764,6 +9764,11 @@ vue3-markdown-it@^1.0.10:
     markdown-it-task-lists "^2.1.1"
     markdown-it-toc-done-right "^4.2.0"
 
+vue3-tabs-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue3-tabs-component/-/vue3-tabs-component-1.1.1.tgz#6c32ae9feae5159ced77418973970af6f2a40f0b"
+  integrity sha512-TJ8QxHDCEYucSp1gqxbQOzbMUggfEXpbo1RG6KsAqGIbHiaENdwVRM/aUFyi8faw898Aiday6JpVOBv+AliiJQ==
+
 vue@^3.2.13:
   version "3.2.45"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.45.tgz#94a116784447eb7dbd892167784619fef379b3c8"

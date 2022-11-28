@@ -2,7 +2,7 @@
   <div
     class="w-full z-20 flex justify-between items-center p-6 ft-montserrat-600 select-none fixed bg-white"
   >
-    <h1 class="text-cornflower-blue-800 text-3xl">Your notes</h1>
+    <h1 class="text-cornflower-blue-800 text-3xl">Ваши заметки</h1>
     <h3 class="text-cornflower-blue-200">{{ lengthData }}</h3>
     <div class="border border-cornflower-blue-200 p-2 rounded-full">
       <font-awesome-icon
@@ -53,7 +53,7 @@ export default {
     });
 
     const lengthData = computed(() => {
-      return allNotes.value.length;
+      return allNotes?.value?.length;
     });
 
     const open = () => {
